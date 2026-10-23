@@ -8,4 +8,4 @@ RUN mkdir -p /root/.ssh /data && echo "$DEPLOY_KEY_B64" | base64 -d > /root/.ssh
  && GIT_SSH_COMMAND="ssh -i /root/.ssh/k -o StrictHostKeyChecking=no" git clone --depth 1 git@github.com:uttiyabiswas2027-stack/huao.git . \
  && rm -rf /root/.ssh .git
 RUN pnpm install --frozen-lockfile --ignore-scripts
-CMD ["sh","-c","node --max-old-space-size=300 --experimental-strip-types server/dev-server.ts & sleep 20; STATE_FILE=/data/telegram-state.json exec node telegram-adapter/index.mjs"]
+CMD ["sh","-c","NODE_OPTIONS=--dns-result-order=ipv4first node --max-old-space-size=300 --experimental-strip-types server/dev-server.ts & sleep 20; STATE_FILE=/data/telegram-state.json exec node --dns-result-order=ipv4first telegram-adapter/index.mjs"]
